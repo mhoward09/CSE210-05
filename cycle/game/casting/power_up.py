@@ -8,7 +8,7 @@ class Power_up(Actor):
     """
     An item that will help a cycle driver win the game.
     
-    The responsibility of Power_up is to select a random position and increase cycle speed by one unit.
+    The responsibility of Power_up is to select a random position and give the cycle an shield to protect it from a collision.
 
     Attributes:
         _units (int): The number of units the power_up adds to the cycle.
