@@ -1,9 +1,9 @@
 import constants
 
 from game.casting.cast import Cast
-from game.casting.food import Food
+from game.casting.power_up import Power_up
 from game.casting.score import Score
-from game.casting.snake import Snake
+from game.casting.cycle import Cycle
 from game.scripting.script import Script
 from game.scripting.control_actors_action import ControlActorsAction
 from game.scripting.move_actors_action import MoveActorsAction
@@ -17,12 +17,16 @@ from game.shared.point import Point
 
 
 def main():
-    
-    # create the cast
+    x = int(constants.MAX_X / 2)
+    y = int(constants.MAX_Y / 2)
+    #create the cast
     cast = Cast()
-    cast.add_actor("foods", Food())
-    cast.add_actor("snakes", Snake())
-    cast.add_actor("scores", Score())
+    cast.add_actor("power_up", Power_up())
+    cast.add_actor("cycles", Cycle(constants.GREEN, 100, y))
+    cast.add_actor("cycles", Cycle(constants.BLUE, 800, y))
+    cast.add_actor("scores", Score(constants.GREEN, 15, 15))
+    cast.add_actor("scores", Score(constants.BLUE, 160, 15))
+    #print(f'these are the cast: {cast._actors}')
    
     # start the game
     keyboard_service = KeyboardService()
@@ -33,6 +37,7 @@ def main():
     script.add_action("update", MoveActorsAction())
     script.add_action("update", HandleCollisionsAction())
     script.add_action("output", DrawActorsAction(video_service))
+    #print(f'these are the scripts {script._actions}')
     
     director = Director(video_service)
     director.start_game(cast, script)
