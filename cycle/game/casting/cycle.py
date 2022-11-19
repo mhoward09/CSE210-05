@@ -10,28 +10,27 @@ class Cycle(Actor):
     The responsibility of Cycle is to move itself.
 
     Attributes:
-        _units (int): The units of speed the power_up is worth.
+        _sheild (int): The counter to count how many sheild uses the cycle gets from the power-up.
     """
     def __init__(self, color, x, y):
         super().__init__()
-        self._postion = Point(x,y)
         self._xpos = x
         self._ypos = y
+        self._original_color = color
         self._color = color
         self._segments = []
         self._prepare_cycle()
         #we will just set the initial velocity at ControlActorsAction class just like snake
         #self._velocity = Point(d * 1, 0)
         self._sheild = 0
-
+        
     def get_segments(self):
         return self._segments
 
     def move_next(self):
-        self._segments[0].move_next()
         self.grow_tail()
+        self._segments[0].move_next()
         
-
     def get_cycle(self):
         return self._segments[0]
 
@@ -56,7 +55,7 @@ class Cycle(Actor):
         position = Point(self._xpos, self._ypos)
         velocity = Point(constants.CELL_SIZE, 0)
         text = "8"
-        color = self._color
+        color = self._original_color
             
         segment = Actor()
         segment.set_position(position)
@@ -81,5 +80,22 @@ class Cycle(Actor):
             self._segments.append(segment)
         """
 
+    def add_sheild(self, units):
+        """Adds units to the sheild attribute"""
+        self._sheild += units
+
+    def lose_sheild(self, units):
+        """Removes units to the sheild attribute"""
+        self._sheild -= units
+
     def get_sheild(self):
         return self._sheild
+
+    def reset(self):
+        #erase segments
+        self._segments = []
+
+        #reset cycle
+        self._prepare_cycle()
+
+        self._sheild = 0

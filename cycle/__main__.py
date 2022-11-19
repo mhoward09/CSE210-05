@@ -22,10 +22,10 @@ def main():
     #create the cast
     cast = Cast()
     cast.add_actor("power_up", Power_up())
-    cast.add_actor("cycles", Cycle(constants.GREEN, 100, y))
-    cast.add_actor("cycles", Cycle(constants.BLUE, 800, y))
-    cast.add_actor("scores", Score(constants.GREEN, 15, 15))
-    cast.add_actor("scores", Score(constants.BLUE, 160, 15))
+    cast.add_actor("cycles", Cycle(constants.GREEN, 105, y))
+    cast.add_actor("cycles", Cycle(constants.BLUE, 795, y))
+    cast.add_actor("scores", Score(constants.LIGHT_GREEN, 15, 15))
+    cast.add_actor("scores", Score(constants.LIGHT_BLUE, 160, 15))
     #print(f'these are the cast: {cast._actors}')
    
     # start the game

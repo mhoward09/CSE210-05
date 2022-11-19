@@ -2,10 +2,22 @@ import constants
 from game.scripting.action import Action
 from game.shared.point import Point
 
-
 class ControlActorsAction(Action):
+    """
+    An input action that controls the snake.
+    
+    The responsibility of ControlActorsAction is to get the direction and move the snake's head.
+
+    Attributes:
+        _keyboard_service (KeyboardService): An instance of KeyboardService.
+    """
 
     def __init__(self, keyboard_service):
+        """Constructs a new ControlActorsAction using the specified KeyboardService.
+        
+        Args:
+            keyboard_service (KeyboardService): An instance of KeyboardService.
+        """
         self._keyboard_service = keyboard_service
         #move up direction
         self._direction1 = Point(0, constants.CELL_SIZE)
@@ -14,8 +26,17 @@ class ControlActorsAction(Action):
         self._is_game_over = False
 
     def execute(self, cast, is_game_over, script):
+        """Executes the control actors action.
+
+        Args:
+            cast (Cast): The cast of Actors in the game.
+            script (Script): The script of Actions in the game.
+        """
 
         cycles = cast.get_actors("cycles")
+
+        cycle1 = cycles[0]
+        cycle1.turn_cycle(self._direction1)
 
         # left
         if self._keyboard_service.is_key_down('a'):
@@ -33,10 +54,8 @@ class ControlActorsAction(Action):
         if self._keyboard_service.is_key_down('s'):
             self._direction1 = Point(0, constants.CELL_SIZE)
 
-        cycle1 = cycles[0]
-        cycle1.turn_cycle(self._direction1)
-
-        cycles = cast.get_actors("cycles")
+        cycle2 = cycles[1]
+        cycle2.turn_cycle(self._direction2)
 
         # left
         if self._keyboard_service.is_key_down('j'):
@@ -54,8 +73,12 @@ class ControlActorsAction(Action):
         if self._keyboard_service.is_key_down('k'):
             self._direction2 = Point(0, constants.CELL_SIZE)
 
-        cycle2 = cycles[1]
-        cycle2.turn_cycle(self._direction2)
+        if self._keyboard_service.is_key_down('y'):
+            handle_colisions = script.get_actions("update")[1]
+            if handle_colisions.get_is_game_over():
+                handle_colisions.reset_game(cast, self._direction1, self._direction2)
 
-    def set_is_game_over(self, is_game_over):
-        self._is_game_over = is_game_over
+        if self._keyboard_service.is_key_down('n'):
+            handle_colisions = script.get_actions("update")[1]
+            if handle_colisions.get_is_game_over():
+                exit()
