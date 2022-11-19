@@ -12,13 +12,16 @@ class Cycle(Actor):
     Attributes:
         _units (int): The units of speed the power_up is worth.
     """
-    def __init__(self, color, x, y, d):
+    def __init__(self, color, x, y):
         super().__init__()
         self._postion = Point(x,y)
+        self._xpos = x
+        self._ypos = y
         self._color = color
         self._segments = []
         self._prepare_cycle()
-        self._velocity = Point(d * 1, 0)
+        #we will just set the initial velocity at ControlActorsAction class just like snake
+        #self._velocity = Point(d * 1, 0)
         self._sheild = 0
 
     def get_segments(self):
@@ -40,19 +43,33 @@ class Cycle(Actor):
         segment = Actor()
         segment.set_position(position)
         segment.set_text("#")
-        segment.set_color(constants.GREEN)
+        segment.set_color(self._color)
         self._segments.append(segment)
 
     def turn_cycle(self, velocity):
         self._segments[0].set_velocity(velocity)
     
     def _prepare_cycle(self):
-        x = int(constants.MAX_X / 2)
-        y = int(constants.MAX_Y / 2)
+        #x = int(constants.MAX_X / 2)
+        #y = int(constants.MAX_Y / 2)
+        #cycle will start with just the head for now -- we can change to the commented out for loop at the bottom if need be later
+        position = Point(self._xpos, self._ypos)
+        velocity = Point(constants.CELL_SIZE, 0)
+        text = "8"
+        color = self._color
+            
+        segment = Actor()
+        segment.set_position(position)
+        segment.set_velocity(velocity)
+        segment.set_text(text)
+        segment.set_color(color)
+        self._segments.append(segment)
 
+        """
         for i in range(constants.SNAKE_LENGTH):
-            position = Point(x - i * constants.CELL_SIZE, y)
-            velocity = Point(1 * constants.CELL_SIZE, 0)
+            #snake created horizontally --will change this later
+            position = Point(self._xpos - i * constants.CELL_SIZE, self._ypos)
+            velocity = Point(constants.CELL_SIZE, 0)
             text = "8" if i == 0 else "#"
             color = self._color
              
@@ -62,6 +79,7 @@ class Cycle(Actor):
             segment.set_text(text)
             segment.set_color(color)
             self._segments.append(segment)
+        """
 
     def get_sheild(self):
         return self._sheild

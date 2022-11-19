@@ -1,15 +1,17 @@
 import constants
-from game.casting.actor import actor
-from game.scripting.action import action
-from game.shared.point import point
+from game.casting.actor import Actor
+from game.scripting.action import Action
+from game.shared.point import Point
 
-class HandleCollisionsAction(action):
+class HandleCollisionsAction(Action):
     
     def __init__(self):
         self._is_game_over = False
 
     def execute(self, cast, is_game_over, script):
-        
+        pass
+
+"""        
          if not self._is_game_over:
             self._handle_food_collision(cast)
             self._handle_segment_collision(cast)
@@ -86,3 +88,5 @@ class HandleCollisionsAction(action):
 
     def get_is_game_over(self):
         return self._is_game_over
+
+"""
